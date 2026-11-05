@@ -9,7 +9,7 @@ Tugas UTS Web Desain, Prodi Bisnis Digital, Semester 5.
 
 ## Link
 - **Website (deploy):** https://USERNAME.github.io/NAMA-REPO/
-- **Repository:** https://github.com/USERNAME/NAMA-REPO
+- **Repository:** https://github.com/AsengKetok/cupkita-sablon
 
 ## Kontak UMKM
 - **Alamat:** Grand Jati Junction, Jl. Perintis Kemerdekaan No. 3A, Medan Timur, Kota Medan, Sumatera Utara 20218
