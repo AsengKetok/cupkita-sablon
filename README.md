@@ -4,7 +4,7 @@ Tugas UTS Web Desain, Prodi Bisnis Digital, Semester 5.
 
 ## Identitas
 - **Nama:** Marvin Berlin (Bisnis Digital)
-- **NIM:** [isi NIM]
+- **NIM:** 240103023
 - **Nama UMKM:** CupKita Sablon (UMKM fiktif, jasa sablon cup plastik)
 
 ## Link
