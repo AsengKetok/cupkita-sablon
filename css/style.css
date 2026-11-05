@@ -1,0 +1,687 @@
+/* =========================================================
+   CupKita Sablon - style.css
+   1. Variabel & reset      6. Hero & marquee
+   2. Tipografi             7. Kartu & langkah
+   3. Layout & util         8. Halaman dalam
+   4. Header & navigasi     9. Footer
+   5. Tombol               10. Animasi & responsif
+   ========================================================= */
+
+/* 1. VARIABEL & RESET ------------------------------------ */
+:root{
+  --ink:#14213d;
+  --ink-soft:#22335c;
+  --cyan:#00b8d9;
+  --cyan-d:#007c96;
+  --mag:#f0347f;
+  --yel:#ffd23f;
+  --mint:#7be0c3;
+  --bg:#fbfdfe;
+  --alt:#e9f7fa;
+  --line:#cfe3e8;
+  --radius:18px;
+  --radius-lg:28px;
+  --header-h:72px;
+  --shadow-hard:8px 8px 0 var(--ink);
+  --ease-bounce:cubic-bezier(.34,1.56,.64,1);
+  --ease-out:cubic-bezier(.2,.8,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header-h) + 16px);-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  font-family:"Nunito Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:1.0625rem;
+  line-height:1.7;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 1px 1px,rgba(20,33,61,.055) 1px,transparent 0) 0 0/24px 24px,
+    var(--bg);
+  overflow-x:hidden;
+}
+img{display:block;max-width:100%;height:auto}
+ul,ol{margin:0 0 1em;padding-left:1.2em}
+a{color:var(--cyan-d)}
+::selection{background:var(--yel);color:var(--ink)}
+:focus-visible{outline:3px solid var(--mag);outline-offset:3px;border-radius:4px}
+
+/* 2. TIPOGRAFI ------------------------------------------- */
+h1,h2,h3{margin:0 0 .55em;font-family:"Bricolage Grotesque","Nunito Sans",sans-serif;line-height:1.1;letter-spacing:-.015em}
+h1{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:800}
+h2{font-size:clamp(1.7rem,3.8vw,2.5rem);font-weight:800}
+h3{font-size:1.2rem;font-weight:600}
+p{margin:0 0 1em;max-width:68ch}
+.center{text-align:center}
+.center p{margin-inline:auto}
+.kicker{
+  display:inline-flex;align-items:center;gap:.5rem;
+  margin:0 0 .8rem;padding:.32rem .85rem;
+  background:#fff;border:2px solid var(--ink);border-radius:999px;
+  color:var(--ink);font-size:.78rem;font-weight:800;
+  letter-spacing:.12em;text-transform:uppercase;
+  box-shadow:3px 3px 0 var(--yel);max-width:none;
+}
+.kicker::before{content:"✦";color:var(--mag);font-size:.9em;animation:spin 6s linear infinite}
+.kicker-light{background:transparent;color:#fff;border-color:rgba(255,255,255,.55);box-shadow:3px 3px 0 var(--mag)}
+.kicker-light::before{color:var(--yel)}
+.mark{position:relative;z-index:0;white-space:nowrap}
+.mark::after{
+  content:"";position:absolute;z-index:-1;left:-.05em;right:-.05em;bottom:.08em;height:.35em;
+  background:var(--yel);border-radius:.4em .7em .4em .6em;
+  transform:rotate(-1.4deg);transform-origin:left center;
+  animation:marker .8s .25s var(--ease-out) both;
+}
+.section-head{max-width:720px;margin-bottom:2.2rem}
+.section-head.center{margin-inline:auto}
+.section-head p:last-child{margin-bottom:0}
+
+/* 3. LAYOUT & UTIL --------------------------------------- */
+.container{width:min(1120px,92%);margin-inline:auto}
+.container.narrow{width:min(780px,92%)}
+.section{position:relative;padding:clamp(2.6rem,6vw,4.8rem) 0}
+.section.alt{background:linear-gradient(180deg,var(--alt),#f4fbfd);border-block:3px solid var(--ink)}
+.section.alt::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(circle at 8% 20%,rgba(0,184,217,.14),transparent 28%),
+             radial-gradient(circle at 92% 78%,rgba(240,52,127,.12),transparent 30%);
+}
+.section.alt>.container{position:relative;z-index:1}
+.grid{display:grid;gap:1.5rem}
+.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.grid>*,.hero-grid>*,.product>*,.product-card,.foot-grid>*{min-width:0}
+.skip{position:absolute;left:-999px;top:0;z-index:200;padding:.6rem 1.1rem;background:var(--ink);color:#fff;border-radius:0 0 10px 0;font-weight:700}
+.skip:focus{left:0}
+
+/* 4. HEADER & NAVIGASI ----------------------------------- */
+.site-header{
+  position:sticky;top:0;z-index:80;
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border-bottom:3px solid var(--ink);
+  transition:box-shadow .3s var(--ease-out);
+}
+.site-header.scrolled{box-shadow:0 8px 0 rgba(20,33,61,.08)}
+.nav-wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:var(--header-h)}
+.brand{display:flex;align-items:center;gap:.6rem;color:var(--ink);text-decoration:none;font:800 1.25rem "Bricolage Grotesque",sans-serif;white-space:nowrap}
+.brand img{flex:none;transition:transform .45s var(--ease-bounce)}
+.brand:hover img{transform:rotate(-14deg) scale(1.08)}
+.brand span{position:relative}
+.brand span::after{
+  content:"";position:absolute;left:0;right:0;bottom:-4px;height:3px;border-radius:2px;
+  background:linear-gradient(90deg,var(--cyan),var(--mag),var(--yel));
+  transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease-out);
+}
+.brand:hover span::after{transform:scaleX(1)}
+
+.menu{display:flex;align-items:center;gap:.2rem;margin:0;padding:0;list-style:none}
+.menu a{
+  position:relative;display:block;padding:.6rem 1rem;border-radius:10px;
+  color:var(--ink);font-weight:700;text-decoration:none;white-space:nowrap;
+  transition:background .2s,color .2s,transform .2s var(--ease-bounce);
+}
+.menu a::after{
+  content:"";position:absolute;left:1rem;right:1rem;bottom:.34rem;height:3px;border-radius:2px;
+  background:var(--mag);transform:scaleX(0);transform-origin:left;
+  transition:transform .28s var(--ease-bounce);
+}
+.menu a:hover{background:var(--alt);color:var(--cyan-d);transform:translateY(-1px)}
+.menu a:hover::after,.menu a.active::after{transform:scaleX(1)}
+.menu a.active{background:var(--alt);color:var(--cyan-d)}
+
+.has-sub{position:relative}
+.has-sub>a::before{
+  content:"";display:inline-block;width:7px;height:7px;margin-right:.5rem;
+  border-right:2.5px solid currentColor;border-bottom:2.5px solid currentColor;
+  transform:rotate(45deg) translateY(-2px);transition:transform .25s var(--ease-bounce);
+}
+.has-sub:hover>a::before,.has-sub.open>a::before{transform:rotate(225deg) translate(-1px,-1px)}
+.submenu{
+  position:absolute;top:100%;left:0;z-index:90;min-width:240px;margin:0;padding:.45rem;
+  list-style:none;background:#fff;border:2px solid var(--ink);border-radius:var(--radius);
+  box-shadow:5px 5px 0 var(--yel);
+  opacity:0;visibility:hidden;transform:translateY(10px) scale(.97);transform-origin:top left;
+  transition:opacity .2s,transform .25s var(--ease-out),visibility .25s;
+}
+.submenu a{padding:.55rem .8rem;border-radius:8px;white-space:normal}
+.submenu a::after{display:none}
+.has-sub:focus-within>.submenu,
+.has-sub.open>.submenu{opacity:1;visibility:visible;transform:none}
+@media (hover:hover){
+  .has-sub:hover>.submenu{opacity:1;visibility:visible;transform:none}
+}
+
+.nav-toggle{display:none;padding:9px;background:none;border:2px solid var(--ink);border-radius:10px;cursor:pointer;transition:transform .2s var(--ease-bounce),background .2s}
+.nav-toggle:hover{background:var(--alt);transform:scale(1.05)}
+.nav-toggle span{display:block;width:22px;height:3px;margin:4px 0;border-radius:2px;background:var(--ink);transition:transform .25s var(--ease-bounce),opacity .2s}
+.nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0;transform:scaleX(.2)}
+.nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* 5. TOMBOL ---------------------------------------------- */
+.btn{
+  position:relative;display:inline-flex;align-items:center;gap:.5rem;
+  padding:.78rem 1.55rem;overflow:hidden;
+  background:var(--ink);color:#fff;
+  border:2px solid var(--ink);border-radius:999px;
+  font:700 1rem/1.2 "Nunito Sans",sans-serif;text-decoration:none;cursor:pointer;
+  box-shadow:0 4px 0 rgba(20,33,61,.35);
+  transition:transform .25s var(--ease-bounce),background .2s,border-color .2s,color .2s,box-shadow .25s;
+}
+.btn::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.45) 48%,transparent 75%);
+  transform:translateX(-130%);transition:transform .65s var(--ease-out);pointer-events:none;
+}
+.btn:hover{background:var(--mag);border-color:var(--mag);color:#fff;transform:translateY(-3px) rotate(-1deg);box-shadow:0 7px 0 var(--ink)}
+.btn:hover::before{transform:translateX(130%)}
+.btn:active{transform:translateY(1px);box-shadow:0 2px 0 var(--ink)}
+.btn>span[aria-hidden]{transition:transform .25s var(--ease-bounce)}
+.btn:hover>span[aria-hidden]{transform:translateX(4px)}
+.btn-ghost{background:transparent;color:var(--ink);box-shadow:0 4px 0 rgba(20,33,61,.12)}
+.btn-ghost:hover{background:var(--ink);border-color:var(--ink);color:#fff}
+.actions{display:flex;flex-wrap:wrap;gap:.85rem;align-items:center}
+.link-arrow{
+  display:inline-flex;align-items:center;gap:.45rem;color:var(--ink);
+  font-weight:800;text-decoration:none;border-bottom:3px solid var(--yel);
+  transition:gap .2s var(--ease-bounce),color .2s,border-color .2s;
+}
+.link-arrow:hover{gap:.75rem;color:var(--mag);border-color:var(--mag)}
+
+/* 6. HERO & MARQUEE -------------------------------------- */
+.hero{
+  position:relative;overflow:hidden;isolation:isolate;
+  padding:clamp(2.5rem,6.5vw,4.8rem) 0 clamp(2rem,4vw,3rem);
+  background:linear-gradient(180deg,#e6f6fa 0%,#f2fbfd 55%,var(--bg) 100%);
+  border-bottom:3px solid var(--ink);
+}
+.hero-bg{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.blob{position:absolute;border-radius:50%;filter:blur(46px);opacity:.5;will-change:translate}
+.blob-1{width:390px;height:390px;top:-140px;right:-90px;background:var(--yel);animation:blob 16s ease-in-out infinite alternate}
+.blob-2{width:320px;height:320px;bottom:-130px;left:-110px;background:var(--cyan);animation:blob 19s 1s ease-in-out infinite alternate-reverse}
+.blob-3{width:250px;height:250px;top:38%;left:46%;background:var(--mag);opacity:.28;animation:blob 13s 2s ease-in-out infinite alternate}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:2.5rem;align-items:center}
+.hero-copy{position:relative;z-index:2}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:.55rem;margin:0 0 1.1rem;padding:.36rem .9rem;
+  background:#fff;border:2px solid var(--ink);border-radius:999px;
+  font-size:.8rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  box-shadow:3px 3px 0 var(--yel);max-width:none;animation:rise .7s var(--ease-out) both;
+}
+.eyebrow .dot{width:9px;height:9px;flex:none;border-radius:50%;background:var(--mag);box-shadow:0 0 0 0 rgba(240,52,127,.5);animation:pulse 2s infinite}
+.hero h1{margin-bottom:.15em;font-size:clamp(2.5rem,6.5vw,4.2rem);letter-spacing:-.03em}
+.hero h1 .line{display:block;overflow:hidden;padding-bottom:.06em}
+.hero h1 .line>span{display:inline-block;animation:rise .9s var(--ease-out) both}
+.hero h1 .line:nth-child(2)>span{animation-delay:.1s}
+.hero h1 .highlight{
+  position:relative;display:inline-block;z-index:0;
+  color:var(--cyan-d);
+}
+.hero h1 .highlight::before{
+  content:"";position:absolute;z-index:-1;left:-.04em;right:-.04em;bottom:.04em;height:.34em;
+  background:var(--yel);border-radius:.5em .8em .4em .7em;
+  transform:rotate(-1.5deg) scaleX(0);transform-origin:left center;
+  animation:marker .9s .55s var(--ease-out) forwards;
+}
+.tagline{
+  margin-bottom:.65em;color:var(--mag);
+  font:600 clamp(1.25rem,2.4vw,1.6rem) "Bricolage Grotesque",sans-serif;
+  animation:rise .8s .2s var(--ease-out) both;
+}
+.hero-copy>p:not(.eyebrow):not(.tagline){animation:rise .8s .3s var(--ease-out) both}
+.hero-copy .actions{animation:rise .8s .4s var(--ease-out) both}
+
+.hero-visual{
+  position:relative;z-index:1;display:grid;place-items:center;
+  min-height:340px;transform:translate3d(var(--px,0),var(--py,0),0);
+  transition:transform .5s cubic-bezier(.2,.8,.2,1);
+}
+.hero-visual::before{
+  content:"";position:absolute;width:min(370px,92%);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.95),rgba(255,201,60,.28) 58%,transparent 70%);
+  animation:breathe 6s ease-in-out infinite;
+}
+.orbit{
+  position:absolute;width:min(350px,90%);aspect-ratio:1;border-radius:50%;
+  border:3px dashed rgba(0,124,150,.35);
+  animation:spin 34s linear infinite;
+}
+.orbit::before,.orbit::after{
+  content:"";position:absolute;border-radius:50%;border:3px solid var(--ink);
+}
+.orbit::before{width:16px;height:16px;top:8%;left:12%;background:var(--yel)}
+.orbit::after{width:12px;height:12px;bottom:10%;right:10%;background:var(--mag)}
+.hero-img{
+  position:relative;z-index:1;width:min(310px,74%);
+  filter:drop-shadow(0 22px 22px rgba(20,33,61,.18));
+  animation:float 5.5s ease-in-out infinite;
+  transition:filter .3s;
+}
+.hero-visual:hover .hero-img{animation-play-state:paused;filter:drop-shadow(0 28px 26px rgba(20,33,61,.22))}
+
+.chip{
+  position:absolute;z-index:2;display:inline-flex;align-items:center;gap:.4rem;
+  padding:.45rem .85rem;background:#fff;border:2px solid var(--ink);border-radius:999px;
+  font-size:.82rem;font-weight:800;white-space:nowrap;box-shadow:3px 3px 0 var(--ink);
+  animation:bob 5s ease-in-out infinite;
+}
+.chip-1{top:10%;left:0;rotate:-5deg;animation-delay:.1s;color:var(--cyan-d)}
+.chip-2{top:46%;right:-2%;rotate:4deg;animation-delay:1.1s;color:var(--mag)}
+.chip-3{bottom:12%;left:4%;rotate:2deg;animation-delay:2s}
+.spark{position:absolute;z-index:2;color:var(--mag);font-size:1.4rem;animation:twinkle 2.6s ease-in-out infinite}
+.s1{top:18%;right:14%;animation-delay:.2s}
+.s2{bottom:24%;right:6%;font-size:1rem;color:var(--cyan-d);animation-delay:1.1s}
+.s3{top:60%;left:-2%;font-size:1.1rem;color:var(--yel);animation-delay:1.8s}
+
+.stats{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;
+  margin:3rem 0 0;padding:0;list-style:none;
+}
+.stat{
+  position:relative;padding:1.1rem 1rem;text-align:center;
+  background:#fff;border:2px solid var(--ink);border-radius:var(--radius);
+  box-shadow:4px 4px 0 var(--line);
+  transition:transform .3s var(--ease-bounce),box-shadow .3s;
+}
+.stat:nth-child(1){box-shadow:4px 4px 0 var(--cyan)}
+.stat:nth-child(2){box-shadow:4px 4px 0 var(--mag)}
+.stat:nth-child(3){box-shadow:4px 4px 0 var(--yel)}
+.stat:nth-child(4){box-shadow:4px 4px 0 var(--mint)}
+.stat:hover{transform:translateY(-5px) rotate(-1deg);box-shadow:6px 8px 0 var(--ink)}
+.stat b{display:block;font:800 clamp(1.6rem,3.2vw,2.1rem)/1 "Bricolage Grotesque",sans-serif;color:var(--ink)}
+.stat span{display:block;margin-top:.35rem;font-size:.82rem;font-weight:700;color:var(--ink-soft)}
+
+.marquee{
+  overflow:hidden;padding:.75rem 0;background:var(--ink);color:#fff;
+  border-bottom:3px solid var(--ink);
+}
+.marquee-track{display:flex;width:max-content;animation:marquee 28s linear infinite;will-change:transform}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marquee-track span{
+  display:inline-flex;align-items:center;gap:1.4rem;padding-right:1.4rem;
+  font:800 .95rem "Bricolage Grotesque",sans-serif;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;
+}
+.marquee-track span::after{content:"✦";color:var(--yel);font-size:1.1rem}
+
+/* 7. KARTU & LANGKAH ------------------------------------- */
+.card{
+  position:relative;padding:1.6rem;background:#fff;
+  border:2px solid var(--ink);border-top:8px solid var(--accent,var(--cyan));
+  border-radius:var(--radius);overflow:hidden;
+  transition:transform .35s var(--ease-out),box-shadow .35s var(--ease-out);
+}
+.card::after{
+  content:"";position:absolute;top:-40px;right:-40px;width:110px;height:110px;border-radius:50%;
+  background:var(--accent,var(--cyan));opacity:.08;transition:transform .45s var(--ease-out);
+}
+.card:hover{transform:translateY(-8px) rotate(-.6deg);box-shadow:8px 10px 0 var(--ink)}
+.card:hover::after{transform:scale(1.4)}
+.card>:last-child{margin-bottom:0}
+.grid>.card:nth-child(1){--accent:var(--cyan)}
+.grid>.card:nth-child(2){--accent:var(--mag)}
+.grid>.card:nth-child(3){--accent:var(--yel)}
+.grid>.card:nth-child(4){--accent:var(--mint)}
+.card-icon{
+  display:grid;place-items:center;width:56px;height:56px;margin-bottom:1rem;
+  background:var(--accent,var(--cyan));border:2px solid var(--ink);border-radius:16px;
+  font-size:1.55rem;box-shadow:3px 3px 0 var(--ink);
+  transition:transform .35s var(--ease-bounce);
+}
+.card:hover .card-icon{transform:rotate(-9deg) scale(1.08)}
+
+.steps{margin:0;padding:0;list-style:none;counter-reset:s}
+.steps li{
+  display:flex;align-items:flex-start;gap:1.1rem;padding:1rem .4rem;
+  border-bottom:2px dashed rgba(20,33,61,.22);
+  counter-increment:s;border-radius:10px;
+  transition:background .25s,transform .25s var(--ease-bounce);
+}
+.steps li:last-child{border-bottom:0}
+.steps li:hover{background:rgba(255,255,255,.7);transform:translateX(5px)}
+.steps li::before{
+  content:counter(s);flex:none;display:grid;place-items:center;
+  width:2.4rem;height:2.4rem;background:var(--yel);border:2px solid var(--ink);border-radius:50%;
+  font-weight:800;box-shadow:2px 2px 0 var(--ink);
+  transition:transform .3s var(--ease-bounce),background .2s,color .2s;
+}
+.steps li:hover::before{background:var(--mag);color:#fff;transform:rotate(-10deg) scale(1.1)}
+.steps li strong{display:block;font-family:"Bricolage Grotesque",sans-serif}
+.steps li p{margin:.15rem 0 0;font-size:.95rem;color:var(--ink-soft)}
+
+/* Produk unggulan (beranda) */
+.product-card{
+  position:relative;display:flex;flex-direction:column;padding:1.2rem 1.2rem 1.5rem;
+  background:#fff;border:2px solid var(--ink);border-radius:var(--radius-lg);
+  transition:transform .35s var(--ease-out),box-shadow .35s var(--ease-out);
+}
+.product-card:nth-child(1){box-shadow:7px 7px 0 var(--cyan)}
+.product-card:nth-child(2){box-shadow:7px 7px 0 var(--mag)}
+.product-card:nth-child(3){box-shadow:7px 7px 0 var(--yel)}
+.product-card:hover{transform:translateY(-8px) rotate(-.5deg);box-shadow:10px 12px 0 var(--ink)}
+.product-thumb{
+  display:grid;place-items:center;margin:-.2rem -.2rem 1.1rem;padding:.6rem;
+  background:linear-gradient(135deg,#eef9fc,#fff);
+  border:2px solid var(--ink);border-radius:16px;overflow:hidden;
+}
+.product-thumb img{width:100%;transition:transform .45s var(--ease-out)}
+.product-card:hover .product-thumb img{transform:scale(1.05) rotate(-1.5deg)}
+.product-card h3{margin-bottom:.35rem}
+.product-card p{margin-bottom:.7rem;font-size:.95rem;color:var(--ink-soft)}
+.price{margin:0 0 1rem;font:800 1.35rem "Bricolage Grotesque",sans-serif;color:var(--ink)}
+.price span{font:700 .8rem "Nunito Sans",sans-serif;color:var(--ink-soft)}
+.product-card .link-arrow{margin-top:auto;align-self:flex-start;font-size:.95rem}
+
+/* CTA band */
+.cta{
+  position:relative;overflow:hidden;padding:clamp(2.6rem,6vw,4.2rem) 0;
+  background:var(--ink);color:#fff;
+}
+.cta::before,.cta::after{
+  content:"✦";position:absolute;color:var(--yel);pointer-events:none;
+}
+.cta::before{top:14%;left:4%;font-size:2.2rem;animation:twinkle 3s infinite}
+.cta::after{bottom:16%;right:6%;font-size:1.5rem;color:var(--mag);animation:twinkle 3.4s .8s infinite}
+.cta-inner{position:relative;z-index:1;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.5rem}
+.cta-inner>div:first-child{flex:1 1 420px}
+.cta h2{margin-bottom:.35em;color:#fff}
+.cta p{color:#d5e6ee}
+.cta .btn{background:var(--yel);border-color:var(--yel);color:var(--ink);box-shadow:0 5px 0 var(--mag)}
+.cta .btn:hover{background:var(--mag);border-color:var(--mag);color:#fff;box-shadow:0 8px 0 var(--yel)}
+
+/* 8. HALAMAN DALAM --------------------------------------- */
+.page-title{
+  position:relative;overflow:hidden;isolation:isolate;
+  padding:clamp(2.6rem,6vw,4.2rem) 0;
+  background:radial-gradient(circle at 82% -20%,#2b4575 0%,var(--ink) 55%);
+  color:#fff;border-bottom:3px solid var(--ink);
+}
+.page-title::before{
+  content:"";position:absolute;inset:0;z-index:-1;opacity:.1;
+  background-image:radial-gradient(#fff 1.2px,transparent 1.2px);background-size:26px 26px;
+}
+.page-title::after{
+  content:"";position:absolute;z-index:-1;width:340px;height:340px;right:-100px;bottom:-190px;
+  border-radius:50%;background:var(--cyan);opacity:.18;filter:blur(40px);animation:breathe 7s ease-in-out infinite;
+}
+.page-title h1{margin-bottom:.25em;font-size:clamp(2.1rem,5.4vw,3.4rem);animation:rise .8s var(--ease-out) both}
+.page-title p{margin:0;color:#d5e6ee;animation:rise .8s .12s var(--ease-out) both}
+.page-title .kicker{margin-bottom:1rem;animation:rise .7s var(--ease-out) both}
+
+/* Sejarah & timeline */
+.timeline{position:relative;margin:2rem 0 2.2rem;padding:0;list-style:none}
+.timeline::before{content:"";position:absolute;top:.6rem;bottom:.6rem;left:1.05rem;width:3px;border-radius:2px;background:linear-gradient(var(--cyan),var(--mag),var(--yel))}
+.timeline li{position:relative;padding:.35rem 0 .35rem 3.2rem;margin-bottom:1.1rem}
+.timeline li::before{
+  content:"";position:absolute;left:.35rem;top:.55rem;width:1.4rem;height:1.4rem;
+  background:#fff;border:3px solid var(--ink);border-radius:50%;
+  transition:transform .3s var(--ease-bounce),background .2s;
+}
+.timeline li:hover::before{background:var(--yel);transform:scale(1.18)}
+.timeline b{display:block;font:800 1.05rem "Bricolage Grotesque",sans-serif;color:var(--cyan-d)}
+.timeline span{font-size:.95rem;color:var(--ink-soft)}
+
+blockquote{
+  position:relative;margin:2rem 0;padding:2rem 2rem 1.6rem 3.7rem;
+  background:#fff;border:2px solid var(--ink);border-radius:var(--radius);
+  box-shadow:7px 7px 0 var(--mag);font-size:1.12rem;font-style:italic;
+  transition:transform .3s var(--ease-out),box-shadow .3s;
+}
+blockquote:hover{transform:translate(-2px,-2px);box-shadow:10px 10px 0 var(--yel)}
+blockquote::before{
+  content:"\201C";position:absolute;left:1rem;top:.1rem;
+  font:900 4.4rem/1 "Bricolage Grotesque",sans-serif;color:var(--mag);font-style:normal;
+}
+blockquote p{margin:0}
+blockquote footer{margin-top:.7rem;color:var(--cyan-d);font-size:.92rem;font-style:normal;font-weight:700}
+
+.table-wrap{
+  margin:1rem 0 2.2rem;overflow-x:auto;
+  border:2px solid var(--ink);border-radius:var(--radius);box-shadow:var(--shadow-hard);
+  background:#fff;
+}
+table{width:100%;margin:0;border-collapse:collapse;background:#fff;font-size:1rem}
+th,td{padding:.75rem .95rem;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--ink);color:#fff;border-bottom:2px solid var(--ink);font-family:"Bricolage Grotesque",sans-serif}
+tbody tr{transition:background .2s}
+tbody tr:hover{background:#fff7d6}
+tbody tr:last-child td{border-bottom:0}
+
+/* Halaman produk */
+.product{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(1.8rem,4vw,3.2rem);align-items:center}
+.product-media{position:relative}
+.product-media img{
+  width:100%;border:2px solid var(--ink);border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-hard);
+  transition:transform .4s var(--ease-out),box-shadow .4s var(--ease-out);
+}
+.product-media:hover img{transform:translate(-3px,-3px) rotate(-.8deg);box-shadow:12px 12px 0 var(--yel)}
+.sticker{
+  position:absolute;z-index:2;top:-1rem;right:-.6rem;
+  display:grid;place-items:center;width:84px;height:84px;padding:.4rem;
+  background:var(--yel);border:2px solid var(--ink);border-radius:50%;
+  font:800 .72rem/1.15 "Bricolage Grotesque",sans-serif;text-align:center;text-transform:uppercase;
+  box-shadow:3px 3px 0 var(--ink);rotate:10deg;
+  animation:bob 4.5s ease-in-out infinite;
+}
+.sticker.mag{background:var(--mag);color:#fff}
+.sticker.mint{background:var(--mint)}
+.product.reverse .product-media{order:2}
+.product.reverse .sticker{right:auto;left:-.6rem;rotate:-10deg}
+.price-tag{
+  display:inline-block;margin:0 0 1rem;padding:.3rem .85rem;
+  background:var(--alt);border:2px solid var(--ink);border-radius:999px;
+  font-weight:800;color:var(--cyan-d);box-shadow:3px 3px 0 var(--line);
+}
+.feature-list{margin:0 0 1.4rem;padding:0;list-style:none}
+.feature-list li{position:relative;padding:.3rem 0 .3rem 2.1rem;border-bottom:1px solid var(--line)}
+.feature-list li:last-child{border-bottom:0}
+.feature-list li::before{
+  content:"✓";position:absolute;left:0;top:.42rem;display:grid;place-items:center;
+  width:1.35rem;height:1.35rem;background:var(--mint);border:2px solid var(--ink);border-radius:50%;
+  font-size:.72rem;font-weight:900;line-height:1;
+}
+
+/* Halaman kontak */
+.info{margin:0 0 1.6rem;padding:0;list-style:none}
+.info li{
+  padding:.7rem .9rem;margin-bottom:.55rem;
+  background:#fff;border:2px solid var(--line);border-radius:12px;
+  overflow-wrap:anywhere;transition:transform .25s var(--ease-bounce),border-color .2s,box-shadow .2s;
+}
+.info li:hover{transform:translateX(5px);border-color:var(--ink);box-shadow:4px 4px 0 var(--yel)}
+.info li strong{color:var(--ink)}
+.info a{font-weight:700;text-decoration-thickness:2px;text-underline-offset:2px}
+
+.form-card{
+  position:relative;padding:1.6rem;background:#fff;
+  border:2px solid var(--ink);border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-hard);
+}
+.form-card::before{
+  content:"";position:absolute;top:-2px;left:24px;right:24px;height:6px;border-radius:0 0 6px 6px;
+  background:linear-gradient(90deg,var(--cyan),var(--yel),var(--mag));
+  background-size:200% 100%;animation:stripe 6s linear infinite;
+}
+form label{display:block;margin:1rem 0 .3rem;font-weight:700}
+form input,form textarea{
+  display:block;width:100%;padding:.75rem 1rem;
+  background:#fff;color:var(--ink);
+  border:2px solid var(--ink);border-radius:12px;font:inherit;
+  transition:border-color .2s,box-shadow .25s,transform .25s var(--ease-out);
+}
+form textarea{resize:vertical;min-height:130px}
+form input:hover,form textarea:hover{border-color:var(--cyan-d)}
+form input:focus,form textarea:focus{
+  outline:none;border-color:var(--cyan-d);
+  box-shadow:0 0 0 4px rgba(0,184,217,.18);transform:translateY(-2px);
+}
+form input:user-invalid,form textarea:user-invalid{border-color:var(--mag);box-shadow:0 0 0 4px rgba(240,52,127,.12)}
+form .btn{margin-top:1.2rem}
+#form-status{min-height:1.5em;margin:.9rem 0 0;color:var(--cyan-d);font-weight:800}
+.form-note{display:flex;align-items:center;gap:.5rem;margin:.4rem 0 0;font-size:.88rem;color:var(--ink-soft)}
+.form-note::before{content:"⏱";font-size:1rem}
+
+/* 9. FOOTER ----------------------------------------------- */
+.site-footer{position:relative;margin-top:0;padding-top:3rem;background:var(--ink);color:#d5e6ee;font-size:.98rem}
+.site-footer::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:8px;
+  background:linear-gradient(90deg,var(--cyan),var(--yel),var(--mag),var(--mint),var(--cyan));
+  background-size:200% 100%;animation:stripe 8s linear infinite;
+}
+.site-footer h3{color:#fff;font-size:1.05rem;letter-spacing:.01em}
+.site-footer a{color:var(--yel);text-decoration-thickness:2px;text-underline-offset:3px;transition:color .2s}
+.site-footer a:hover{color:var(--mint)}
+.site-footer ul{margin:0;padding:0;list-style:none}
+.site-footer li{margin-bottom:.35rem}
+.site-footer .brand{color:#fff;margin-bottom:.6rem}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:2rem}
+.foot-grid p{max-width:40ch}
+.copy{max-width:none;margin:1.6rem 0 0;padding:1.2rem 4% 1.4rem;border-top:1px solid #2f4066;text-align:center;font-size:.88rem}
+.dev-credit{
+  display:inline-flex;align-items:center;gap:.45rem;margin-top:.65rem;padding:.28rem .85rem;
+  color:#fff;border:1.5px solid rgba(255,201,60,.45);border-radius:999px;
+  font-size:.8rem;font-weight:700;line-height:1.4;
+  transition:transform .25s var(--ease-bounce),border-color .2s,background .2s;
+}
+.dev-credit::before{content:"</>";color:var(--yel);font:800 .85rem "Bricolage Grotesque",sans-serif;letter-spacing:-.04em}
+.dev-credit strong{color:var(--yel)}
+.dev-credit:hover{transform:translateY(-2px) rotate(-1deg);border-color:var(--yel);background:rgba(255,201,60,.08)}
+.footer-social{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.6rem}
+.footer-social a{
+  display:inline-flex;align-items:center;gap:.35rem;padding:.3rem .7rem;
+  border:1.5px solid rgba(255,201,60,.45);border-radius:999px;
+  font-size:.82rem;font-weight:700;text-decoration:none;
+  transition:transform .2s var(--ease-bounce),background .2s,color .2s,border-color .2s;
+}
+.footer-social a:hover{background:var(--yel);border-color:var(--yel);color:var(--ink);transform:translateY(-3px) rotate(-2deg)}
+
+/* 10. UI MENGAMBANG -------------------------------------- */
+.scroll-progress{
+  position:fixed;inset:0 0 auto 0;z-index:120;height:4px;
+  background:linear-gradient(90deg,var(--cyan),var(--yel),var(--mag));
+  transform:scaleX(0);transform-origin:left;pointer-events:none;
+}
+.to-top{
+  position:fixed;right:1.2rem;bottom:1.2rem;z-index:100;
+  display:grid;place-items:center;width:50px;height:50px;
+  background:var(--yel);color:var(--ink);
+  border:2px solid var(--ink);border-radius:50%;
+  font-size:1.25rem;font-weight:900;line-height:1;cursor:pointer;
+  box-shadow:3px 3px 0 var(--ink);
+  opacity:0;visibility:hidden;transform:translateY(18px) scale(.9);
+  transition:opacity .3s,visibility .3s,transform .3s var(--ease-bounce),background .2s;
+}
+.to-top.show{opacity:1;visibility:visible;transform:none}
+.to-top:hover{background:var(--mag);color:#fff;transform:translateY(-4px) rotate(-8deg)}
+.to-top:active{transform:translateY(1px) scale(.96)}
+
+/* Scroll reveal (aktif hanya jika JavaScript jalan) */
+.js [data-reveal]{
+  opacity:0;translate:0 28px;
+  transition:opacity .7s var(--ease-out),translate .7s var(--ease-out);
+  transition-delay:var(--delay,0s);
+}
+.js [data-reveal].is-visible{opacity:1;translate:0 0}
+
+/* Confetti */
+.confetti{
+  position:fixed;top:-24px;z-index:300;width:9px;height:14px;
+  pointer-events:none;animation:confetti 2.4s cubic-bezier(.2,.7,.4,1) forwards;
+}
+
+/* Keyframes */
+@keyframes rise{from{opacity:0;translate:0 22px}to{opacity:1;translate:0 0}}
+@keyframes marker{from{transform:rotate(-1.5deg) scaleX(0)}to{transform:rotate(-1.5deg) scaleX(1)}}
+@keyframes float{0%,100%{translate:0 0}50%{translate:0 -16px}}
+@keyframes bob{0%,100%{translate:0 0}50%{translate:0 -9px}}
+@keyframes blob{0%{translate:0 0;scale:1}50%{translate:26px -18px;scale:1.08}100%{translate:-18px 22px;scale:.94}}
+@keyframes breathe{0%,100%{scale:1;opacity:1}50%{scale:1.06;opacity:.82}}
+@keyframes spin{to{rotate:360deg}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(240,52,127,.5)}70%{box-shadow:0 0 0 9px rgba(240,52,127,0)}100%{box-shadow:0 0 0 0 rgba(240,52,127,0)}}
+@keyframes twinkle{0%,100%{opacity:.25;scale:.8;rotate:0deg}50%{opacity:1;scale:1.25;rotate:18deg}}
+@keyframes marquee{to{transform:translateX(-50%)}}
+@keyframes stripe{to{background-position:200% 0}}
+@keyframes confetti{
+  0%{translate:0 0;rotate:0deg;opacity:1}
+  100%{translate:var(--dx,0px) 108vh;rotate:calc(var(--spin,540deg));opacity:.85}
+}
+
+/* 11. RESPONSIF ------------------------------------------ */
+@media (max-width:980px){
+  .hero-grid{grid-template-columns:1.1fr .9fr;gap:1.5rem}
+  .chip-1{left:-.4rem}
+  .chip-2{right:-.4rem}
+}
+@media (max-width:900px){
+  .nav-toggle{display:block}
+  .nav{
+    display:none;position:absolute;top:100%;left:0;right:0;
+    max-height:calc(100vh - var(--header-h));overflow-y:auto;
+    background:#fff;border-bottom:3px solid var(--ink);
+    box-shadow:0 12px 0 rgba(20,33,61,.08);
+  }
+  .nav.open{display:block;animation:rise .25s var(--ease-out) both}
+  .menu{flex-direction:column;align-items:stretch;gap:0;padding:.6rem 4% 1rem}
+  .menu a{white-space:normal}
+  .menu a::after{left:.8rem;right:.8rem;bottom:.3rem}
+  .has-sub>a{display:flex;justify-content:space-between;align-items:center}
+  .has-sub>a::before{order:2;margin:0 0 0 .5rem;transform:rotate(45deg);transition:transform .25s var(--ease-bounce)}
+  .has-sub.open>a::before{transform:rotate(225deg)}
+  .submenu{
+    position:static;display:none;min-width:0;margin:0 0 .5rem 1rem;padding:0;
+    border:0;border-left:3px solid var(--yel);border-radius:0;box-shadow:none;
+    opacity:1;visibility:visible;transform:none;
+  }
+  .has-sub.open>.submenu{display:block}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:768px){
+  body{font-size:1rem}
+  .hero-grid,.product,.grid-2,.grid-3,.foot-grid{grid-template-columns:minmax(0,1fr)}
+  .hero-grid{gap:2.4rem}
+  .hero-copy{text-align:center}
+  .hero-copy>p{margin-inline:auto}
+  .hero-copy .actions,.hero-copy .eyebrow{justify-content:center}
+  .hero-copy .actions{justify-content:center}
+  .hero-visual{min-height:300px;order:2}
+  .hero-img{width:min(250px,64%)}
+  .orbit{width:min(300px,80%)}
+  .hero-visual::before{width:min(320px,88%)}
+  .chip-1{left:4%}
+  .chip-2{right:2%}
+  .chip-3{left:8%}
+  .section-head{margin-inline:auto;text-align:center}
+  .product.reverse .product-media{order:0}
+  .product.reverse .sticker{left:auto;right:-.6rem}
+  .product-media{max-width:520px;margin-inline:auto}
+  .cta-inner{text-align:center;justify-content:center}
+  .cta-inner .actions{justify-content:center}
+  th,td{padding:.6rem .65rem;font-size:.92rem}
+  .brand{font-size:1.1rem}
+  .foot-grid{gap:1.6rem}
+  .foot-grid p{margin-inline:auto}
+}
+@media (max-width:560px){
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem}
+  .stat{padding:.9rem .6rem}
+  .chip{font-size:.72rem;padding:.35rem .65rem}
+  .chip-3{display:none}
+  .to-top{right:.9rem;bottom:.9rem;width:44px;height:44px}
+  .form-card{padding:1.2rem}
+  .sticker{width:70px;height:70px;font-size:.62rem;top:-.8rem}
+  .marquee-track span{font-size:.82rem}
+  .copy{font-size:.8rem}
+}
+
+/* Hormati preferensi pengguna */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.001ms!important;
+    scroll-behavior:auto!important;
+  }
+  .js [data-reveal]{opacity:1;translate:none}
+  .hero-img,.chip,.spark,.blob,.orbit,.stat,.card{transform:none!important}
+}
